@@ -1,5 +1,6 @@
 package dev.levimartines.services;
 
+import dev.levimartines.exceptions.ObjectNotFoundException;
 import dev.levimartines.mappers.CategoryMapper;
 import dev.levimartines.models.entities.Category;
 import dev.levimartines.models.vo.CategoryVO;
@@ -25,10 +26,14 @@ public class CategoryService {
         return repository.findAll().stream().collect(Collectors.toList());
     }
 
+    public Category findById(Long id) {
+        return repository.findByIdOptional(id).orElseThrow(() -> new ObjectNotFoundException("Object not found"));
+    }
+
     @Transactional
     public Category save(CategoryVO categoryVO) {
         Category category = CategoryMapper.toEntity(categoryVO);
-        category.persist();
+        repository.persist(category);
         return category;
     }
 }

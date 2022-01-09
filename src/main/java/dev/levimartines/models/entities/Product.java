@@ -1,5 +1,6 @@
 package dev.levimartines.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import java.util.List;
@@ -13,17 +14,19 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "product")
 @Getter
 @Setter
 @Builder
-public class Category extends PanacheEntityBase {
+public class Product extends PanacheEntityBase {
 
     @Id
     @GeneratedValue
@@ -31,6 +34,12 @@ public class Category extends PanacheEntityBase {
 
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products;
+    private Double price;
+
+    @ManyToMany
+    @JoinTable(name = "product_category",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonIgnore
+    private List<Category> categories;
 }

@@ -16,3 +16,48 @@ databaseChangeLog:
               - column:
                   name: name
                   type: varchar(50)
+  - changeSet:
+      id: 2
+      author: levi
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: double
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: product_category
+            columns:
+              - column:
+                  name: product_id
+                  type: int
+              - column:
+                  name: category_id
+                  type: int
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: product_id
+            constraintName: fk_product_category
+            referencedTableName: product
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: category_id
+            constraintName: fk_category_product
+            referencedTableName: category
+            referencedColumnNames: id

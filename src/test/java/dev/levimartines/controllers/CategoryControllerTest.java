@@ -3,6 +3,7 @@ package dev.levimartines.controllers;
 import dev.levimartines.models.vo.CategoryVO;
 import io.quarkus.test.junit.QuarkusTest;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -17,6 +18,22 @@ public class CategoryControllerTest {
             .when().get("/categories")
             .then().statusCode(200)
             .body("$.size()", is(2));
+    }
+
+    @Test
+    public void shouldFindCategoryByIdAndReturn200() {
+        given()
+            .when().get("/categories/1")
+            .then().statusCode(200)
+            .body("id", is(1))
+            .body("name", CoreMatchers.containsString("Test"));
+    }
+
+    @Test
+    public void shouldNotFindCategoryByIdAndReturn404() {
+        given()
+            .when().get("/categories/2")
+            .then().statusCode(404);
     }
 
     @Test
