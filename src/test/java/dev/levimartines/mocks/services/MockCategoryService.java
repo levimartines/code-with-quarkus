@@ -2,6 +2,7 @@ package dev.levimartines.mocks.services;
 
 import dev.levimartines.exceptions.ObjectNotFoundException;
 import dev.levimartines.models.entities.Category;
+import dev.levimartines.models.entities.Product;
 import dev.levimartines.models.vo.CategoryVO;
 import dev.levimartines.services.CategoryService;
 import io.quarkus.test.Mock;
@@ -32,6 +33,8 @@ public class MockCategoryService extends CategoryService {
         if (id != 1L) {
             throw new ObjectNotFoundException();
         }
-        return Category.builder().id(id).name("Test Category").build();
+        List<Product> products = List.of(Product.builder().id(1L).name("Test Product 1").build(),
+            Product.builder().id(2L).name("Test Product 2").build());
+        return Category.builder().id(id).name("Test Category").products(products).build();
     }
 }

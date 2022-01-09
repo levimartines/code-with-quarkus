@@ -1,10 +1,13 @@
 package dev.levimartines.controllers;
 
+import dev.levimartines.mappers.CategoryMapper;
+import dev.levimartines.models.dto.CategoryDTO;
 import dev.levimartines.models.entities.Category;
 import dev.levimartines.models.vo.CategoryVO;
 import dev.levimartines.services.CategoryService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -24,8 +27,10 @@ public class CategoryController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Category> findAll() {
-        return service.findAll();
+    public List<CategoryDTO> findAll() {
+        return service.findAll().stream()
+            .map(CategoryMapper::toDTO)
+            .collect(Collectors.toList());
     }
 
     @GET

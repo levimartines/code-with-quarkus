@@ -26,7 +26,8 @@ public class CategoryControllerTest {
             .when().get("/categories/1")
             .then().statusCode(200)
             .body("id", is(1))
-            .body("name", CoreMatchers.containsString("Test"));
+            .body("name", CoreMatchers.containsString("Test"))
+            .body("products.size()", is(2));
     }
 
     @Test
