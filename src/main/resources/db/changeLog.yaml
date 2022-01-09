@@ -61,3 +61,46 @@ databaseChangeLog:
             constraintName: fk_category_product
             referencedTableName: category
             referencedColumnNames: id
+  - changeSet:
+      id: 3
+      author: levi
+      changes:
+        - createTable:
+            tableName: state
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: city
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: state_id
+                  type: int
+        - addForeignKeyConstraint:
+            baseTableName: city
+            baseColumnNames: state_id
+            constraintName: fk_city_state
+            referencedTableName: state
+            referencedColumnNames: id
