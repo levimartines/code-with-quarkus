@@ -104,3 +104,126 @@ databaseChangeLog:
             constraintName: fk_city_state
             referencedTableName: state
             referencedColumnNames: id
+  - changeSet:
+      id: 4
+      author: levi
+      changes:
+        - createTable:
+            tableName: client_type
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: client
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(101)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cpf_or_cnpj
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_type_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: client
+            baseColumnNames: client_type_id
+            constraintName: fk_client_type_client
+            referencedTableName: client_type
+            referencedColumnNames: id
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: street
+                  type: varchar(155)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: complement
+                  type: varchar(55)
+              - column:
+                  name: district
+                  type: varchar(155)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: postal_code
+                  type: varchar(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: address
+            baseColumnNames: client_id
+            constraintName: fk_client_address
+            referencedTableName: client
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: address
+            baseColumnNames: city_id
+            constraintName: fk_city_address
+            referencedTableName: city
+            referencedColumnNames: id
+        - createTable:
+            tableName: phone
+            columns:
+              - column:
+                  name: client_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(24)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: phone
+            baseColumnNames: client_id
+            constraintName: fk_client_phone
+            referencedTableName: client
+            referencedColumnNames: id
